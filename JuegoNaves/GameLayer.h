@@ -12,7 +12,14 @@ public:
 	void processControls() override;
 	void update() override;
 	void draw() override;
+	void keysToControls(SDL_Event event);
+
 	Player* player;
 	Background* background;
+	bool controlShoot = false;
+	int controlMoveY = 0;
+	int controlMoveX = 0;
+
+
 };
 
