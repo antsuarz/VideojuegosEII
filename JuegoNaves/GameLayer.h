@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Background.h"
 #include "Enemy.h"
+#include "Projectile.h"
 
 #include <list>
 
@@ -25,7 +26,7 @@ public:
 	int controlMoveX = 0;
 
 	list<Enemy*> enemies;
-
+	list<Projectile*> projectiles;
 
 };
 
