@@ -132,7 +132,42 @@ void GameLayer::update() {
 		projectile->update();
 	}
 
+	// Colisiones , Enemy - Projectile
 
+	list<Enemy*> deleteEnemies;
+	list<Projectile*> deleteProjectiles;
+
+	for (auto const& enemy : enemies) {
+		for (auto const& projectile : projectiles) {
+			if (enemy->isOverlap(projectile)) {
+				bool pInList = std::find(deleteProjectiles.begin(),
+					deleteProjectiles.end(),
+					projectile) != deleteProjectiles.end();
+
+				if (!pInList) {
+					deleteProjectiles.push_back(projectile);
+				}
+
+				bool eInList = std::find(deleteEnemies.begin(),
+					deleteEnemies.end(),
+					enemy) != deleteEnemies.end();
+
+				if (!eInList) {
+					deleteEnemies.push_back(enemy);
+				}
+			}
+		}
+	}
+
+	for (auto const& delEnemy : deleteEnemies) {
+		enemies.remove(delEnemy);
+	}
+	deleteEnemies.clear();
+
+	for (auto const& delProjectile : deleteProjectiles) {
+		projectiles.remove(delProjectile);
+	}
+	deleteProjectiles.clear();
 }
 
 void GameLayer::draw() {
