@@ -1,11 +1,16 @@
 #include "Player.h"
 
 Player::Player(float x, float y, Game* game)
-	: Actor("res/jugador.png", x, y, 50, 57, game) {
+	: Actor("res/jugador.png", x, y, 35, 35, game) {
+
+	aIdleRight = new Animation("res/jugador_idle_derecha.png", width, height,
+		320, 40, 6, 8, game);
+	animation = aIdleRight;
 
 }
 
 void Player::update() {
+	animation->update();
 	if (shootTime > 0) {
 		shootTime--;
 	}
@@ -32,3 +37,8 @@ Projectile* Player::shoot() {
 	}
 
 }
+
+void Player::draw() {
+	animation->draw(x, y);
+}
+
