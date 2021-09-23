@@ -19,4 +19,3 @@ public:
 	int fileHeight;
 	Game* game; // referencia al juego
 };
-
