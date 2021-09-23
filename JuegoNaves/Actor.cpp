@@ -36,6 +36,7 @@ void Actor::draw() {
 
 bool Actor::isOverlap(Actor* actor) {
 	bool overlap = false;
+	//Calcular las esquinas de las imagenes para saber si se superpone con otra
 	if (actor->x - actor->width / 2 <= x + width / 2
 		&& actor->x + actor->width / 2 >= x - width / 2
 		&& actor->y + actor->height / 2 >= y - height / 2
