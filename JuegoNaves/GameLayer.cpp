@@ -8,7 +8,7 @@ GameLayer::GameLayer(Game* game)
 
 void GameLayer::init() {
 	points = 0;
-	textPoints = new Text("", WIDTH * 0.92, HEIGHT * 0.05, game);
+	textPoints = new Text("0", WIDTH * 0.92, HEIGHT * 0.05, game);
 	textPoints->content = to_string(points);
 
 	player = new Player(50, 50, game);
@@ -182,9 +182,10 @@ void GameLayer::update() {
 
 				if (!eInList) {
 					deleteEnemies.push_back(enemy);
+					points++;
+					textPoints->content = to_string(points);
 				}
-				points++;
-				textPoints->content = to_string(points);
+				
 			}
 		}
 	}
