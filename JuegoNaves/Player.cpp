@@ -5,12 +5,37 @@ Player::Player(float x, float y, Game* game)
 
 	aIdleRight = new Animation("res/jugador_idle_derecha.png", width, height,
 		320, 40, 6, 8, game);
+	aIdleLeft = new Animation("res/jugador_idle_izquierda.png", width, height,
+		320, 40, 6, 8, game);
+	aRunningRight = new Animation("res/jugador_corriendo_derecha.png", width, height,
+		320, 40, 6, 8, game);
+	aRunningLeft = new Animation("res/jugador_corriendo_izquierda.png", width, height,
+		320, 40, 6, 8, game);
 	animation = aIdleRight;
 
 }
 
 void Player::update() {
 	animation->update();
+
+	if (vx > 0) {
+		state = States::MOVING;
+		orientation = Orientation::RIGHT;
+		animation = aRunningRight;
+	}
+	if (vx < 0) {
+		state = States::MOVING;
+		orientation = Orientation::LEFT;
+		animation = aRunningLeft;
+	}
+	if (vx == 0) {
+		state = States::IDLE;
+		if(orientation == Orientation::RIGHT)
+			animation = aIdleRight;
+		else
+			animation = aIdleLeft;
+	}
+
 	if (shootTime > 0) {
 		shootTime--;
 	}
