@@ -3,21 +3,31 @@
 Player::Player(float x, float y, Game* game)
 	: Actor("res/jugador.png", x, y, 35, 35, game) {
 
+	aShootingRight = new Animation("res/jugador_disparando_derecha.png",
+		width, height, 160, 40, 6, 4, false, game);
+	aShootingLeft = new Animation("res/jugador_disparando_izquierda.png",
+		width, height, 160, 40, 6, 4, false, game);
+
 	aIdleRight = new Animation("res/jugador_idle_derecha.png", width, height,
-		320, 40, 6, 8, game);
+		320, 40, 6, 8, true, game);
 	aIdleLeft = new Animation("res/jugador_idle_izquierda.png", width, height,
-		320, 40, 6, 8, game);
+		320, 40, 6, 8, true, game);
 	aRunningRight = new Animation("res/jugador_corriendo_derecha.png", width, height,
-		320, 40, 6, 8, game);
+		320, 40, 6, 8, true, game);
 	aRunningLeft = new Animation("res/jugador_corriendo_izquierda.png", width, height,
-		320, 40, 6, 8, game);
+		320, 40, 6, 8, true, game);
 	animation = aIdleRight;
 
 }
 
 void Player::update() {
-	animation->update();
-
+	bool hasAnimationEnded = animation->update();
+	if (hasAnimationEnded) {
+		// Estaba disparando
+		if (state == States::SHOOTING) {
+			state = States::IDLE;
+		}
+	}
 	if (vx > 0) {
 		state = States::MOVING;
 		orientation = Orientation::RIGHT;
@@ -35,6 +45,35 @@ void Player::update() {
 		else
 			animation = aIdleLeft;
 	}
+
+	// Selección de animación basada en estados
+	if (state == States::SHOOTING) {
+		if (orientation ==Orientation::RIGHT) {
+			animation = aShootingRight;
+		}
+		if (orientation == Orientation::LEFT) {
+			animation = aShootingLeft;
+		}
+	}
+	if (state == States::MOVING) {
+		if (vx != 0) {
+			if (orientation == Orientation::RIGHT) {
+				animation = aRunningRight;
+			}
+			if (orientation == Orientation::LEFT) {
+				animation = aRunningLeft;
+			}
+		}
+		if (vx == 0) {
+			if (orientation == Orientation::RIGHT) {
+				animation = aIdleRight;
+			}
+			if (orientation == Orientation::LEFT) {
+				animation = aIdleLeft;
+			}
+		}
+	}
+
 
 	if (shootTime > 0) {
 		shootTime--;
@@ -54,8 +93,13 @@ void Player::moveY(float axis) {
 
 Projectile* Player::shoot() {
 	if (shootTime == 0) {
+		state = States::SHOOTING;
 		shootTime = shootCadence;
-		return new Projectile(x, y, game);
+		auto proyectile = new Projectile(x, y, game);
+		if (orientation == Orientation::LEFT) {
+			proyectile->vx *= -1;
+		}
+		return proyectile;
 	}
 	else {
 		return NULL;
