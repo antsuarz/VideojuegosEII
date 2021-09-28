@@ -31,3 +31,18 @@ public:
 	Layer *gameLayer;
 };
 
+//Se referencia en cualquier lado con clase::enum
+enum class States
+{
+	IDLE,
+	MOVING,
+	JUMPING,
+	DYING,
+	SHOOTING,
+	DEAD
+};
+
+enum class Orientation {
+	RIGHT,
+	LEFT
+};

@@ -2,7 +2,7 @@
 
 Animation::Animation(string filename, float actorWidth, float actorHeight,
 	float fileWidth, float fileHeight,
-	int updateFrecuence, int totalFrames, Game* game) {
+	int updateFrecuence, int totalFrames, bool loop, Game* game) {
 
 	// Cargar textura
 	SDL_Surface* surface = IMG_Load(filename.c_str());
@@ -14,6 +14,7 @@ Animation::Animation(string filename, float actorWidth, float actorHeight,
 	this->fileHeight = fileHeight;
 	this->updateFrecuence = updateFrecuence;
 	this->totalFrames = totalFrames;
+	this->loop = loop;
 	this->game = game;
 
 	updateTime = 0; // última actualización
@@ -38,8 +39,11 @@ bool Animation::update() {
 		currentFrame++;
 		// Si lleva al ultimo frame vuelve al primero
 		if (currentFrame >= totalFrames) {
-			// Reiniciar es infinita
 			currentFrame = 0;
+			if (!loop) {
+				return true;
+			}
+
 		}
 	}
 	//Actualizar el rectangulo del source (siguiente frame)

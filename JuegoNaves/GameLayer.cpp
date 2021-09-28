@@ -12,7 +12,7 @@ void GameLayer::init() {
 	textPoints->content = to_string(points);
 
 	player = new Player(50, 50, game);
-	background = new Background("res/fondo.png", WIDTH * 0.5, HEIGHT * 0.5, game);
+	background = new Background("res/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5, game);
 	//Laposición es relativa a la pantalla, en este caso el 85% del aancho y el 5% del alto
 	backgroundPoints = new Actor("res/icono_puntos.png",
 		WIDTH * 0.85, HEIGHT * 0.05, 24, 24, game);
