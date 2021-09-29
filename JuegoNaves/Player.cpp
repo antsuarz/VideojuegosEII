@@ -3,6 +3,7 @@
 Player::Player(float x, float y, Game* game)
 	: Actor("res/jugador.png", x, y, 35, 35, game) {
 
+
 	aShootingRight = new Animation("res/jugador_disparando_derecha.png",
 		width, height, 160, 40, 6, 4, false, game);
 	aShootingLeft = new Animation("res/jugador_disparando_izquierda.png",
@@ -25,25 +26,8 @@ void Player::update() {
 	if (hasAnimationEnded) {
 		// Estaba disparando
 		if (state == States::SHOOTING) {
-			state = States::IDLE;
+			state = States::MOVING;
 		}
-	}
-	if (vx > 0) {
-		state = States::MOVING;
-		orientation = Orientation::RIGHT;
-		animation = aRunningRight;
-	}
-	if (vx < 0) {
-		state = States::MOVING;
-		orientation = Orientation::LEFT;
-		animation = aRunningLeft;
-	}
-	if (vx == 0) {
-		state = States::IDLE;
-		if(orientation == Orientation::RIGHT)
-			animation = aIdleRight;
-		else
-			animation = aIdleLeft;
 	}
 
 	// Selección de animación basada en estados

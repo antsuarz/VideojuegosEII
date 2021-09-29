@@ -8,13 +8,14 @@ Animation::Animation(string filename, float actorWidth, float actorHeight,
 	SDL_Surface* surface = IMG_Load(filename.c_str());
 	texture = SDL_CreateTextureFromSurface(game->renderer, surface);
 
+	this->loop = loop;
 	this->actorWidth = actorWidth;
 	this->actorHeight = actorHeight;
 	this->fileWidth = fileWidth;
 	this->fileHeight = fileHeight;
 	this->updateFrecuence = updateFrecuence;
 	this->totalFrames = totalFrames;
-	this->loop = loop;
+
 	this->game = game;
 
 	updateTime = 0; // última actualización
