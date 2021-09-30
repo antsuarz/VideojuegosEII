@@ -3,6 +3,7 @@
 #include "Actor.h"
 #include "Projectile.h" 
 #include "Animation.h" 
+#include "Audio.h"
 
 class Player : public Actor
 {
@@ -24,6 +25,8 @@ public:
 	Animation* aShootingLeft;
 	Animation* animation; // Referencia a la animación mostrada
 	
+	Audio* audioShoot;
+
 	Orientation orientation = Orientation::RIGHT;
 	States state = States::IDLE;
 };

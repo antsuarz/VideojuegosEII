@@ -2,6 +2,7 @@
 
 #include "Layer.h"
 #include "Player.h"
+#include "Audio.h" 
 #include "Background.h"
 #include "Enemy.h"
 #include "Projectile.h"
@@ -20,6 +21,9 @@ public:
 	void draw() override;
 	void keysToControls(SDL_Event event);
 	int newEnemyTime = 0;
+
+	Audio* audioBackground;
+
 	Text* textPoints;
 	int points;
 

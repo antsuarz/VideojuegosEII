@@ -7,6 +7,10 @@ GameLayer::GameLayer(Game* game)
 }
 
 void GameLayer::init() {
+
+	audioBackground = new Audio("res/musica_ambiente.mp3", true);
+	audioBackground->play();
+
 	points = 0;
 	textPoints = new Text("0", WIDTH * 0.92, HEIGHT * 0.05, game);
 	textPoints->content = to_string(points);

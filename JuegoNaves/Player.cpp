@@ -3,6 +3,7 @@
 Player::Player(float x, float y, Game* game)
 	: Actor("res/jugador.png", x, y, 35, 35, game) {
 
+	audioShoot = new Audio("res/efecto_disparo.wav", false);
 
 	aShootingRight = new Animation("res/jugador_disparando_derecha.png",
 		width, height, 160, 40, 6, 4, false, game);
@@ -77,6 +78,7 @@ void Player::moveY(float axis) {
 
 Projectile* Player::shoot() {
 	if (shootTime == 0) {
+		audioShoot->play();
 		state = States::SHOOTING;
 		shootTime = shootCadence;
 		auto proyectile = new Projectile(x, y, game);
