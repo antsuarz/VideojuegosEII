@@ -2,8 +2,7 @@
 
 Enemy::Enemy(float x, float y, Game* game)
 	: Actor("res/enemigo.png", x, y, 36, 40, game) {
-
-	vx = 1;
+	vx = 0;
 	//Animacion del enemigo
 
 	state = States::MOVING;
@@ -34,11 +33,11 @@ void Enemy::update() {
 	}
 	if (state == States::DYING) {
 		animation = aDying;
+		vx = 0;
 	}
 
 	if (state != States::DYING) {
-		vx = -1;
-		x = x + vx;
+		vx = -1; 
 	}
 
 }

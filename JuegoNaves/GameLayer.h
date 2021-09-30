@@ -3,12 +3,13 @@
 #include "Layer.h"
 #include "Player.h"
 #include "Audio.h" 
+
 #include "Background.h"
 #include "Enemy.h"
 #include "Projectile.h"
 #include "Text.h"
 #include "Tile.h"
-
+#include "Space.h"
 #include <list>
 
 #include <fstream> // Leer ficheros
@@ -32,13 +33,10 @@ public:
 	list<Tile*> tiles;
 	void calculateScroll();
 	float scrollX;
-
+	Space* space;
 	Audio* audioBackground;
-
 	Text* textPoints;
 	int points;
-
-
 	Player* player;
 	Background* background;
 	Actor* backgroundPoints;

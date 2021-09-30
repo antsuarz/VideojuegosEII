@@ -23,6 +23,20 @@ Player::Player(float x, float y, Game* game)
 }
 
 void Player::update() {
+	if (vx > 0) {
+		orientation = Orientation::RIGHT;
+	}
+	if (vx < 0) {
+		orientation = Orientation::LEFT;
+	}
+
+	if (collisionDown == true) {
+		onAir = false;
+	}
+	else {
+		onAir = true;
+	}
+
 	bool hasAnimationEnded = animation->update();
 	if (hasAnimationEnded) {
 		// Estaba disparando
@@ -40,6 +54,7 @@ void Player::update() {
 			animation = aShootingLeft;
 		}
 	}
+	
 	if (state == States::MOVING || state == States::IDLE) {
 		if (vx != 0) {
 			if (orientation == Orientation::RIGHT) {
@@ -63,10 +78,16 @@ void Player::update() {
 	if (shootTime > 0) {
 		shootTime--;
 	}
-
-	x = x + vx;
-	y = y + vy;
 }
+
+void Player::jump() {
+	if (!onAir) {
+		vy = -16;
+		onAir = true;
+	}
+
+}
+
 
 void Player::moveX(float axis) {
 	vx = axis * 3;

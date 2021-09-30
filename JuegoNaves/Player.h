@@ -15,7 +15,8 @@ public:
 	Projectile* shoot();
 	int shootCadence = 30;
 	int shootTime = 0;
-
+	void jump();
+	bool onAir;
 	void draw(float scrollX = 0) override; // Va a sobrescribir
 	Animation* aIdleRight;
 	Animation* aIdleLeft;

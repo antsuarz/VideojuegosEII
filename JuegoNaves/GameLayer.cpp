@@ -7,6 +7,7 @@ GameLayer::GameLayer(Game* game)
 }
 
 void GameLayer::init() {
+	space = new Space(1);
 	scrollX = 0;
 	tiles.clear();
 	audioBackground = new Audio("res/musica_ambiente.mp3", true);
@@ -38,6 +39,7 @@ void GameLayer::processControls() {
 	if (controlShoot) {
 		Projectile* newProjectile = player->shoot();
 		if (newProjectile != NULL) {
+			space->addDynamicActor(newProjectile);
 			projectiles.push_back(newProjectile);
 		}
 
@@ -56,13 +58,12 @@ void GameLayer::processControls() {
 
 	// Eje Y
 	if (controlMoveY > 0) {
-		player->moveY(1);
+		
 	}
 	else if (controlMoveY < 0) {
-		player->moveY(-1);
+		player->jump();
 	}
 	else {
-		player->moveY(0);
 	}
 
 }
@@ -136,10 +137,13 @@ void GameLayer::keysToControls(SDL_Event event) {
 
 
 void GameLayer::update() {
-
-	
+	space->update();
 	background->update();
 	player->update();
+	if (player->y > HEIGHT + 100) {
+		init();
+		return;
+	}
 	for (auto const& enemy : enemies) {
 		enemy->update();
 	}
@@ -163,7 +167,7 @@ void GameLayer::update() {
 
 	//Elimina los proyectiles si se salen de la pantalla
 	for (auto const& projectile : projectiles) {
-		if (projectile->isInRender() == false) {
+		if (projectile->isInRender(scrollX) == false || projectile -> vx == 0) {
 
 			bool pInList = std::find(deleteProjectiles.begin(),
 				deleteProjectiles.end(),
@@ -206,17 +210,31 @@ void GameLayer::update() {
 
 	for (auto const& delEnemy : deleteEnemies) {
 		enemies.remove(delEnemy);
+		space->removeDynamicActor(delEnemy);
 	}
 	deleteEnemies.clear();
 
 	for (auto const& delProjectile : deleteProjectiles) {
 		projectiles.remove(delProjectile);
+		space->removeDynamicActor(delProjectile);
+		delete delProjectile;
 	}
 	deleteProjectiles.clear();
 }
 
 void GameLayer::calculateScroll() {
-	scrollX = player->x - 200;
+	// limite izquierda
+	if (player->x > WIDTH * 0.3) {
+		if (player->x - scrollX < WIDTH * 0.3) {
+			scrollX = player->x - WIDTH * 0.3;
+		}
+	}
+	// limite derecha
+	if (player->x < mapWidth - WIDTH * 0.3) {
+		if (player->x - scrollX > WIDTH * 0.7) {
+			scrollX = player->x - WIDTH * 0.7;
+		}
+	}
 }
 
 
@@ -281,12 +299,14 @@ void GameLayer::loadMapObject(char character, float x, float y)
 		// modificación para empezar a contar desde el suelo.
 		enemy->y = enemy->y - enemy->height / 2;
 		enemies.push_back(enemy);
+		space->addDynamicActor(enemy);
 		break;
 	}
 	case '1': {
 		player = new Player(x, y, game);
 		// modificación para empezar a contar desde el suelo.
 		player->y = player->y - player->height / 2;
+		space->addDynamicActor(player);
 		break;
 	}
 	case '#': {
@@ -294,6 +314,7 @@ void GameLayer::loadMapObject(char character, float x, float y)
 		// modificación para empezar a contar desde el suelo.
 		tile->y = tile->y - tile->height / 2;
 		tiles.push_back(tile);
+		space->addStaticActor(tile);
 		break;
 	}
 	}
