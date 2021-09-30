@@ -14,13 +14,18 @@ void GameLayer::init() {
 	audioBackground->play();
 
 	points = 0;
+	lifes = 3;
 	textPoints = new Text("0", WIDTH * 0.92, HEIGHT * 0.05, game);
 	textPoints->content = to_string(points);
+	textLifes = new Text("0", WIDTH * 0.13, HEIGHT * 0.1, game);
+	textLifes->content = to_string(lifes);
 
 	background = new Background("res/fondo_2.png", WIDTH * 0.5, HEIGHT * 0.5,-1, game);
 	//Laposición es relativa a la pantalla, en este caso el 85% del aancho y el 5% del alto
 	backgroundPoints = new Actor("res/icono_puntos.png",
 		WIDTH * 0.85, HEIGHT * 0.05, 24, 24, game);
+	backgroundLifes= new Actor("res/icono_vidas.png",
+		WIDTH *0.07 , HEIGHT * 0.1 ,40, 40, game);
 
 	projectiles.clear(); // Vaciar por si reiniciamos el juego
 	enemies.clear(); // Vaciar por si reiniciamos el juego
@@ -152,6 +157,8 @@ void GameLayer::update() {
 	for (auto const& enemy : enemies) {
 		if (player->isOverlap(enemy)) {
 			player->loseLife();
+			lifes--;
+			textLifes->content = to_string(lifes);
 			if (player->lifes <= 0) {
 				init();
 				return;
@@ -262,6 +269,8 @@ void GameLayer::draw() {
 	}
 	textPoints->draw();
 	backgroundPoints->draw();
+	textLifes->draw();
+	backgroundLifes->draw();
 	
 	SDL_RenderPresent(game->renderer); // Renderiza
 }
