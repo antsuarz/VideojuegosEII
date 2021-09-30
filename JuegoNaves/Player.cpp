@@ -23,6 +23,9 @@ Player::Player(float x, float y, Game* game)
 }
 
 void Player::update() {
+	if (invulTime > 0) {
+		invulTime--;
+	}
 	if (vx > 0) {
 		orientation = Orientation::RIGHT;
 	}
@@ -115,6 +118,19 @@ Projectile* Player::shoot() {
 }
 
 void Player::draw(float scrollX) {
-	animation->draw(x - scrollX, y);
+	if (invulTime == 0) {
+		animation->draw(x - scrollX, y);
+		return;
+	}
+	if(invulTime % 10 >= 0 && invulTime % 10 <= 5) {
+		animation->draw(x - scrollX, y);
+	}
 }
 
+void Player::loseLife() {
+	if (invulTime > 0 || lifes <= 0) {
+		return;
+	}
+	lifes--;
+	invulTime = 100;
+}

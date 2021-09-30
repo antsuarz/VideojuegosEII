@@ -12,6 +12,9 @@ public:
 	void update();
 	void moveX(float axis);
 	void moveY(float axis);
+	void loseLife();
+	int lifes = 3;
+	int invulTime = 0;
 	Projectile* shoot();
 	int shootCadence = 30;
 	int shootTime = 0;
