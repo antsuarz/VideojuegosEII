@@ -27,6 +27,8 @@ public:
 	Animation* aRunningLeft;
 	Animation* aShootingRight;
 	Animation* aShootingLeft;
+	Animation* aJumpingRight;
+	Animation* aJumpingLeft;
 	Animation* animation; // Referencia a la animación mostrada
 	
 	Audio* audioShoot;

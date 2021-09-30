@@ -10,6 +10,11 @@ Player::Player(float x, float y, Game* game)
 	aShootingLeft = new Animation("res/jugador_disparando_izquierda.png",
 		width, height, 160, 40, 6, 4, false, game);
 
+	aJumpingRight = new Animation("res/jugador_saltando_derecha.png",
+		width, height, 160, 40, 6, 4, false, game);
+	aJumpingLeft = new Animation("res/jugador_saltando_izquierda.png",
+		width, height, 160, 40, 6, 4, false, game);
+
 	aIdleRight = new Animation("res/jugador_idle_derecha.png", width, height,
 		320, 40, 6, 8, true, game);
 	aIdleLeft = new Animation("res/jugador_idle_izquierda.png", width, height,
@@ -32,12 +37,18 @@ void Player::update() {
 	if (vx < 0) {
 		orientation = Orientation::LEFT;
 	}
-
 	if (collisionDown == true) {
 		onAir = false;
 	}
 	else {
 		onAir = true;
+	}
+
+	if (onAir) {
+		state = States::JUMPING;
+	}
+	else {
+		state = States::MOVING;
 	}
 
 	bool hasAnimationEnded = animation->update();
@@ -49,6 +60,14 @@ void Player::update() {
 	}
 
 	// Selección de animación basada en estados
+	if (state == States::JUMPING) {
+		if (orientation == Orientation::RIGHT) {
+			animation = aJumpingRight;
+		}
+		if (orientation == Orientation::LEFT) {
+			animation = aJumpingLeft;
+		}
+	}
 	if (state == States::SHOOTING) {
 		if (orientation ==Orientation::RIGHT) {
 			animation = aShootingRight;
