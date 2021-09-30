@@ -7,8 +7,13 @@
 #include "Enemy.h"
 #include "Projectile.h"
 #include "Text.h"
+#include "Tile.h"
 
 #include <list>
+
+#include <fstream> // Leer ficheros
+#include <sstream> // Leer líneas / String
+
 
 
 class GameLayer : public Layer
@@ -21,6 +26,12 @@ public:
 	void draw() override;
 	void keysToControls(SDL_Event event);
 	int newEnemyTime = 0;
+	void loadMap(string name);
+	void loadMapObject(char character, float x, float y);
+	int mapWidth;
+	list<Tile*> tiles;
+	void calculateScroll();
+	float scrollX;
 
 	Audio* audioBackground;
 

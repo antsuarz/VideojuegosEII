@@ -19,7 +19,7 @@ Player::Player(float x, float y, Game* game)
 	aRunningLeft = new Animation("res/jugador_corriendo_izquierda.png", width, height,
 		320, 40, 6, 8, true, game);
 	animation = aIdleRight;
-
+	orientation = Orientation::RIGHT;
 }
 
 void Player::update() {
@@ -40,7 +40,7 @@ void Player::update() {
 			animation = aShootingLeft;
 		}
 	}
-	if (state == States::MOVING) {
+	if (state == States::MOVING || state == States::IDLE) {
 		if (vx != 0) {
 			if (orientation == Orientation::RIGHT) {
 				animation = aRunningRight;
@@ -93,7 +93,7 @@ Projectile* Player::shoot() {
 
 }
 
-void Player::draw() {
-	animation->draw(x, y);
+void Player::draw(float scrollX) {
+	animation->draw(x - scrollX, y);
 }
 
