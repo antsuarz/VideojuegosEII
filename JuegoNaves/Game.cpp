@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "GameLayer.h"
 
+#include "MenuLayer.h"
+
 Game::Game() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		cout << "Error SDL_Init" << SDL_GetError() << endl;
@@ -9,12 +11,16 @@ Game::Game() {
 		cout << "Error Window y Renderer" << SDL_GetError() << endl;
 	}
 	SDL_SetWindowTitle(window, "Juego de Plataformas");
-	// Escalado de imágenes de calidad 
-	// https://wiki.libsdl.org/SDL_HINT_RENDER_SCALE_QUALITY
+	// Escalado de imágenes de calidad  
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
-	gameLayer = new GameLayer(this);
 
+	//PANTALLAS DEL JUEGO
+	menuLayer = new MenuLayer(this);
+	gameLayer = new GameLayer(this);
+	layer = layer = menuLayer; // Pantalla INICIAL MENULAYER
+	
+							   
 	// fuentes
 	TTF_Init();
 	font = TTF_OpenFont("res/sans.ttf", 24);
@@ -60,10 +66,12 @@ void Game::loop() {
 		initTick = SDL_GetTicks();
 
 		// Controles
-		
-		gameLayer->processControls();
-		gameLayer->update();
-		gameLayer->draw();
+		layer->processControls();
+		// Actualizar elementos
+		layer->update();
+		// Dibujar
+		layer->draw();
+
 
 		endTick = SDL_GetTicks();
 		differenceTick = endTick - initTick;

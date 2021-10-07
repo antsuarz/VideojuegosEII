@@ -10,6 +10,8 @@ using namespace std;
 
 #include "Layer.h"
 
+
+
 class Layer;
 // Valores generales
 #define WIDTH 480
@@ -28,6 +30,8 @@ public:
 	SDL_Renderer* renderer; // renderizador
 	bool loopActive; // Juego activo
 
+	Layer* layer;
+	Layer* menuLayer;
 	Layer *gameLayer;
 
 	int currentLevel = 0;
