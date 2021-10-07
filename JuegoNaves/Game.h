@@ -29,6 +29,10 @@ public:
 	bool loopActive; // Juego activo
 
 	Layer *gameLayer;
+
+	int currentLevel = 0;
+	int finalLevel = 2;
+
 };
 
 //Se referencia en cualquier lado con clase::enum

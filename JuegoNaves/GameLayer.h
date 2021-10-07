@@ -46,6 +46,7 @@ public:
 	bool controlShoot = false;
 	int controlMoveY = 0;
 	int controlMoveX = 0;
+	Tile* cup;
 
 	list<Enemy*> enemies;
 	list<Projectile*> projectiles;

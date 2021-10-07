@@ -29,7 +29,8 @@ void GameLayer::init() {
 
 	projectiles.clear(); // Vaciar por si reiniciamos el juego
 	enemies.clear(); // Vaciar por si reiniciamos el juego
-	loadMap("res/0.txt");
+
+	loadMap("res/" + to_string(game->currentLevel) + ".txt");
 
 }
 
@@ -145,6 +146,16 @@ void GameLayer::update() {
 	space->update();
 	background->update();
 	player->update();
+
+	// Nivel superado
+	if (cup->isOverlap(player)) {
+		game->currentLevel++;
+		if (game->currentLevel > game->finalLevel) {
+			game->currentLevel = 0;
+		}
+		init();
+	}
+
 	if (player->y > HEIGHT + 100) {
 		init();
 		return;
@@ -155,7 +166,7 @@ void GameLayer::update() {
 
 	// Colisiones
 	for (auto const& enemy : enemies) {
-		if (player->isOverlap(enemy)) {
+		if (player->isOverlap(enemy) && enemy -> state != States::DYING) {
 			player->loseLife();
 			lifes= player->lifes;
 			textLifes->content = to_string(lifes);
@@ -261,7 +272,7 @@ void GameLayer::draw() {
 		projectile->draw(scrollX);
 	}
 
-
+	cup->draw(scrollX);
 	player->draw(scrollX);
 
 	for (auto const& enemy : enemies) {
@@ -306,6 +317,14 @@ void GameLayer::loadMap(string name) {
 void GameLayer::loadMapObject(char character, float x, float y)
 {
 	switch (character) {
+	case 'C': {
+		cup = new Tile("res/copa.png", x, y, game);
+		// modificación para empezar a contar desde el suelo.
+		cup->y = cup->y - cup->height / 2;
+		space->addDynamicActor(cup); // Realmente no hace falta
+		break;
+	}
+
 	case 'E': {
 		Enemy* enemy = new Enemy(x, y, game);
 		// modificación para empezar a contar desde el suelo.
