@@ -1,6 +1,10 @@
 #include "Actor.h"
 
 Actor::Actor(string filename, float x, float y, int width, int height, Game* game) {
+
+	//Movidas pal ratón
+	clicked = false;
+	//-------------
 	this->game = game;
 	SDL_Surface* surface = IMG_Load(filename.c_str());
 	texture = SDL_CreateTextureFromSurface(game->renderer, surface);
@@ -50,6 +54,18 @@ bool Actor::isOverlap(Actor* actor) {
 bool Actor::isInRender(float scrollX) {
 	if ((x - scrollX) - width / 2 <= WIDTH && (x - scrollX) + width / 2 >= 0 &&
 		y - height / 2 <= HEIGHT && y + height / 2 >= 0) {
+		return true;
+	}
+	return false;
+}
+
+
+//Movidas pal ratón
+bool Actor::containsPoint(int pointX, int pointY) {
+	if (pointY >= y - height / 2 &&
+		pointY <= y + height / 2 &&
+		pointX <= x + width / 2 &&
+		pointX >= x - width / 2) {
 		return true;
 	}
 	return false;

@@ -19,4 +19,8 @@ public:
 	int fileWidth;
 	int fileHeight;
 	Game* game; // referencia al juego
+
+	//Movidas pa controlar por ratón
+	bool containsPoint(int pointX, int pointY); // contiene punto
+	bool clicked; // Está pulsado
 };
