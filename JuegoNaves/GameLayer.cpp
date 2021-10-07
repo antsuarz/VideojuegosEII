@@ -157,7 +157,7 @@ void GameLayer::update() {
 	for (auto const& enemy : enemies) {
 		if (player->isOverlap(enemy)) {
 			player->loseLife();
-			lifes--;
+			lifes= player->lifes;
 			textLifes->content = to_string(lifes);
 			if (player->lifes <= 0) {
 				init();
