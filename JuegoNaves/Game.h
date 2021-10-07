@@ -33,6 +33,11 @@ public:
 	int currentLevel = 0;
 	int finalLevel = 2;
 
+	int input;
+	int const inputKeyboard = 1;
+	int const inputMouse = 2;
+	int const inputGamePad = 3;
+
 };
 
 //Se referencia en cualquier lado con clase::enum

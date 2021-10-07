@@ -19,7 +19,7 @@ void GameLayer::init() {
 	audioBackground->play();
 
 	points = 0;
-	lifes = 3;
+	lifes = player->lifes;
 	textPoints = new Text("0", WIDTH * 0.92, HEIGHT * 0.05, game);
 	textPoints->content = to_string(points);
 	textLifes = new Text("0", WIDTH * 0.13, HEIGHT * 0.1, game);
