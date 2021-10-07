@@ -12,6 +12,7 @@
 #include "Space.h"
 #include <list>
 
+#include "Pad.h"
 #include <fstream> // Leer ficheros
 #include <sstream> // Leer líneas / String
 
@@ -49,6 +50,7 @@ public:
 	Tile* cup;
 	//Movidas pal ratón
 	// Elementos de interfaz
+	Pad* pad;
 	void mouseToControls(SDL_Event event); // USO DE MOUSE
 	Actor* buttonJump;
 	Actor* buttonShoot;

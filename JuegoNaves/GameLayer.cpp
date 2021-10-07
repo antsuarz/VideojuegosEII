@@ -8,6 +8,7 @@ GameLayer::GameLayer(Game* game)
 
 void GameLayer::init() {
 	//Movidas pal raton
+	pad = new Pad(WIDTH * 0.15, HEIGHT * 0.80, game);
 	buttonJump = new Actor("res/boton_salto.png", WIDTH * 0.9, HEIGHT * 0.55, 100, 100, game);
 	buttonShoot = new Actor("res/boton_disparo.png", WIDTH * 0.75, HEIGHT * 0.83, 100, 100, game);
 	//-------
@@ -173,7 +174,7 @@ void GameLayer::update() {
 
 	// Colisiones
 	for (auto const& enemy : enemies) {
-		if (player->isOverlap(enemy) && enemy -> state != States::DYING) {
+		if (player->isOverlap(enemy) && (enemy -> state != States::DYING && enemy->state != States::DEAD)) {
 			player->loseLife();
 			lifes= player->lifes;
 			textLifes->content = to_string(lifes);
@@ -292,6 +293,7 @@ void GameLayer::draw() {
 
 	//Movidas pal ratón
 	// HUD
+	pad->draw(); // NO TIENEN SCROLL, POSICION FIJA
 	buttonJump->draw(); // NO TIENEN SCROLL, POSICION FIJA
 	buttonShoot->draw(); // NO TIENEN SCROLL, POSICION FIJA
 	//------------------
@@ -381,6 +383,18 @@ void GameLayer::mouseToControls(SDL_Event event) {
 	}
 	// Cada vez que se mueve
 	if (event.type == SDL_MOUSEMOTION) {
+		if (pad->containsPoint(motionX, motionY)) {
+			controlMoveX = pad->getOrientationX(motionX);
+			// Rango de -20 a 20 es igual que 0
+			if (controlMoveX > -20 && controlMoveX < 20) {
+				controlMoveX = 0;
+			}
+
+		}
+		else {
+			controlMoveX = 0;
+		}
+
 		if (buttonShoot->containsPoint(motionX, motionY) == false) {
 			controlShoot = false;
 		}
